@@ -1,0 +1,7 @@
+num = input("Enter a number : ")
+b = 0
+
+for i in num:
+    i = int(i)
+    b = b + i
+print(b)
