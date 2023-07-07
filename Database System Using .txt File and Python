@@ -5,10 +5,14 @@ def crt():
     a = open('Dtb.txt', 'a+')
     dtr = a.readlines()
     ids = rand.randint(1000, 9999)
+    p = 0
     for i in dtr:
         g = i.split(' - ')
         if g[0] == ids:
             ids = rand.randint(1000, 9999)
+            p = p + 1
+        elif p == 8999:
+            ids = rand.randint(10000, 99999)
     name = input('Enter Name : ')
     dob = input('Enter DOB (dd-mm-ccyy) : ')
     gender = input('Enter Gender(M/F) : ')
@@ -26,25 +30,28 @@ def readfile():
     print(f'These are the ids present in the database\n')
     for i in dt:
         g = i.split(' - ')
-        print(g[0], '\n')
+        print(g[0])
+        print()
         a.close()
 
 
 def readinfo():
     a = open('Dtb.txt', 'r')
     dtr = a.readlines()
-    ids = int(input('Enter Your id : '))
+    ids = input('Enter Your id : ')
+    h = 0
     for i in dtr:
         g = i.split(' - ')
-        if int(g[0]) == ids:
+        if g[0] == ids:
             print(f'''
 Name : {g[1]}
 DOB : {g[2]}
 Gender : {g[3]}
 Email : {g[4]}''')
+            h = 1
             a.close()
-        else:
-            print('No Data Present')
+    if h == 0:
+        print('\nNo Data Present\n')
 
 
 def deleteinfo():
@@ -72,27 +79,33 @@ def deleteinfo():
 def editinfo():
     a = open('Dtb.txt', 'r')
     dtr = a.readlines()
-    ids = int(input('Enter Your id : '))
+    ids = input('Enter Your id : ')
     p = 0
     a.close()
+    h = 0
     for i in dtr:
         g = i.split(' - ')
-        if int(g[0]) == ids:
+        if g[0] == ids:
             print('Enter New Data')
             name = input('Enter Name : ')
             dob = input('Enter DOB (dd-mm-ccyy) : ')
             gender = input('Enter Gender(M/F) : ')
-            mail = input('Enter Email : \n')
+            mail = input('Enter Email : ')
+            print('')
             a = open('Dtb.txt', 'w')
-            c = f'{ids} - {name} - {dob} - {gender} - {mail}'
+            c = f'{ids} - {name} - {dob} - {gender} - {mail}\n'
             dtr[p] = c
-            a.truncate()
-            for i in dtr:
-                a.write(i)
+            for k in dtr:
+                a.write(k)
+            a.write('\n')
             a.close()
             print('Data Edited Successfully\n')
+            h = 1
+            break
         else:
             p = p + 1
+    if h == 0:
+        print('\nNo such data to be Edited\n')
 
 
 func = {1: crt,
