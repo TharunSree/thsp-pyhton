@@ -13,7 +13,7 @@ def crt():
     dob = input('Enter DOB (dd-mm-ccyy) : ')
     gender = input('Enter Gender(M/F) : ')
     mail = input('Enter Email : ')
-    print(f'\nYour information hase been successfully added\n\nYour id is {ids}')
+    print(f'\nYour information hase been successfully added\n\nYour id is {ids}\n')
 
     dt = f'{ids} - {name} - {dob} - {gender} - {mail}\n'
     a.write(dt)
@@ -26,7 +26,7 @@ def readfile():
     print(f'These are the ids present in the database\n')
     for i in dt:
         g = i.split(' - ')
-        print(g[0],'\n')
+        print(g[0], '\n')
         a.close()
 
 
@@ -66,22 +66,53 @@ def deleteinfo():
     a = open('Dtb.txt', 'w')
     for i in dtr:
         a.write(f'{i}\n')
+    a.close()
+
+
+def editinfo():
+    a = open('Dtb.txt', 'r')
+    dtr = a.readlines()
+    ids = int(input('Enter Your id : '))
+    p = 0
+    a.close()
+    for i in dtr:
+        g = i.split(' - ')
+        if int(g[0]) == ids:
+            print('Enter New Data')
+            name = input('Enter Name : ')
+            dob = input('Enter DOB (dd-mm-ccyy) : ')
+            gender = input('Enter Gender(M/F) : ')
+            mail = input('Enter Email : \n')
+            a = open('Dtb.txt', 'w')
+            c = f'{ids} - {name} - {dob} - {gender} - {mail}'
+            dtr[p] = c
+            a.truncate()
+            for i in dtr:
+                a.write(i)
+            a.close()
+            print('Data Edited Successfully\n')
+        else:
+            p = p + 1
 
 
 func = {1: crt,
         2: readfile,
         3: readinfo,
-        4: deleteinfo}
+        4: editinfo,
+        5: deleteinfo}
 
 while True:
     print('''1. Create Data
 2. Read Entire Database
 3. Read Information
-4. Delete Information
-5. Exit
+4. Edit Info
+5. Delete Information
+0. Exit
 ''')
     ch = int(input('Enter Choice (Sno.): '))
-    if ch == 5:
+    if ch == 0:
         break
+    elif ch not in func:
+        print('No such function')
     else:
         func[ch]()
