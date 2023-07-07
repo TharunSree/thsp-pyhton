@@ -1,0 +1,87 @@
+import random as rand
+
+
+def crt():
+    a = open('Dtb.txt', 'a+')
+    dtr = a.readlines()
+    ids = rand.randint(1000, 9999)
+    for i in dtr:
+        g = i.split(' - ')
+        if g[0] == ids:
+            ids = rand.randint(1000, 9999)
+    name = input('Enter Name : ')
+    dob = input('Enter DOB (dd-mm-ccyy) : ')
+    gender = input('Enter Gender(M/F) : ')
+    mail = input('Enter Email : ')
+    print(f'\nYour information hase been successfully added\n\nYour id is {ids}')
+
+    dt = f'{ids} - {name} - {dob} - {gender} - {mail}\n'
+    a.write(dt)
+    a.close()
+
+
+def readfile():
+    a = open('Dtb.txt', 'r')
+    dt = a.readlines()
+    print(f'These are the ids present in the database\n')
+    for i in dt:
+        g = i.split(' - ')
+        print(g[0],'\n')
+        a.close()
+
+
+def readinfo():
+    a = open('Dtb.txt', 'r')
+    dtr = a.readlines()
+    ids = int(input('Enter Your id : '))
+    for i in dtr:
+        g = i.split(' - ')
+        if int(g[0]) == ids:
+            print(f'''
+Name : {g[1]}
+DOB : {g[2]}
+Gender : {g[3]}
+Email : {g[4]}''')
+            a.close()
+        else:
+            print('No Data Present')
+
+
+def deleteinfo():
+    a = open('Dtb.txt', 'r')
+    dtr = a.readlines()
+    ids = int(input('Enter Your id : '))
+    p = 0
+    for i in dtr:
+        g = i.split(' - ')
+        if int(g[0]) == ids:
+            dtr.pop(p)
+            print('Data has been successfully deleted\n')
+            break
+        else:
+            p = p + 1
+    else:
+        print('No such id present\n')
+    a.close()
+    a = open('Dtb.txt', 'w')
+    for i in dtr:
+        a.write(f'{i}\n')
+
+
+func = {1: crt,
+        2: readfile,
+        3: readinfo,
+        4: deleteinfo}
+
+while True:
+    print('''1. Create Data
+2. Read Entire Database
+3. Read Information
+4. Delete Information
+5. Exit
+''')
+    ch = int(input('Enter Choice (Sno.): '))
+    if ch == 5:
+        break
+    else:
+        func[ch]()
